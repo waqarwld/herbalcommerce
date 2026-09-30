@@ -1,10 +1,12 @@
 FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY src ./src
 COPY tsconfig.json ./
-RUN npm run build
 ENV NODE_ENV=production
-EXPOSE 4000
+ENV NODE_PATH=/app/src
+EXPOSE 3000
+RUN npm ci
+RUN npm run build
 CMD ["node", "dist/src/index.js"]
